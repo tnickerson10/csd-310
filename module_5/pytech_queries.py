@@ -25,9 +25,8 @@ user3 = {"student_id": 1009, "first_name": "mary", "last_name": "lamb", "enrollm
 docs = collection.find({})
 print()
 for doc in docs:
-    print(doc)
-    print()
-
+    print(f'{doc}\n')
+   
 print('-- DISPLAYING STUDENTS DOCUMENTS FROM find() QUERY --\n')
 
 for id in user1:
