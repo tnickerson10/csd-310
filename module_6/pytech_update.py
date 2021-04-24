@@ -2,6 +2,7 @@
 #April 15th, 2021
 #Assignment 6.2 Pytech_update
 #Goal: to update last_name of current documents with student_id: 1007 in the students collection of db pytech
+#GitHub: https://github.com/tnickerson10/csd-310
 import pymongo
 from pymongo import MongoClient
 

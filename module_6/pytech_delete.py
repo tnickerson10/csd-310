@@ -2,6 +2,7 @@
 #April 15th, 2021
 #Assignment 6.3 Pytech_delete
 #Goal: to add student_id: 1010 to current documents in the students collection of db pytech then delete student_id 1010
+#GitHub: https://github.com/tnickerson10/csd-310
 import pymongo
 from pymongo import MongoClient
 
