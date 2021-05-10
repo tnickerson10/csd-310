@@ -55,13 +55,6 @@ try:
     for i in players:
         print(f"\n Player ID: {i[0]}\n First Name: {i[1]}\n Last Name: {i[2]}\n Team Name: {i[3]}\n")
 
-    
-
-   
-
-
-
-
 
 except mysql.connector.Error as err:
     """ on error code """
