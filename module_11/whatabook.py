@@ -21,10 +21,11 @@ def displayBooks(_cursor):
     # Grabbing the books from database
     _cursor.execute("SELECT book_id, book_name, author, details FROM book")
     books = _cursor.fetchall()
+
     # Printing the books in database with for loop in books
     print("\n -- BOOK LISTINGS --\n")
     for i in books:
-        print(f" Book Name: {i[0]}\n Book Author: {i[1]}\n Book Details: {i[2]}\n")
+        print(f" Book Name: {i[1]}\n Book Author: {i[2]}\n Book Details: {i[3]}\n")
 
 """ DISPLAY MAIN MENU METHOD """
 def displayMenu():
@@ -32,17 +33,23 @@ def displayMenu():
     print("\n -- WHATABOOK MAIN MENU --")
     print("\n 1. Display Books\n 2. Display Store Locations\n 3. My Account\n 4. Exit Program\n")
 
-    # Take in the users choice of Main Menu Options
-    choice = int(input(" PLEASE ENTER THE CORRESPONDING NUMBER FOR SELECTION! "))
+    # Array of valid Main Menu Selections
+    mainMenuOptions = ["1", "2", "3", "4"]
 
-    # If the user inputs anything other than a Main Menu Option the user will be re-prompted
-    while choice <= 0 or choice > 4:
+    # Take in the users choice of Main Menu Options
+    choice = input(" PLEASE ENTER THE CORRESPONDING NUMBER FOR SELECTION! ")
+    
+    # If the user inputs anything other than a valid Main Menu Option the user will be re-prompted
+    while choice not in mainMenuOptions:
         print("\n** INVALID SELECTION: PLEASE TRY AGAIN WITH THE OPTIONS BELOW! **")
         print("\n 1. Display Books\n 2. Display Store Locations\n 3. My Account\n 4. Exit Program\n")
-        choice = int(input(" PLEASE ENTER THE CORRESPONDING NUMBER FOR SELECTION! "))
-        
-    return choice
+        choice = input(" PLEASE ENTER THE CORRESPONDING NUMBER FOR SELECTION! ")
 
+    # Checks if Main Menu selection is valid and stores it as an int and returns it 
+    if choice in mainMenuOptions:
+        validChoice = int(choice)
+        return validChoice
+    
 """ DISPLAYING STORE LOCATIONS METHOD """
 def displayLocations(_cursor):
 
@@ -60,15 +67,20 @@ def validateUser():
 
     print("\n -- ACCOUNT LOGIN --\n")
 
+    # Array of valid User IDs
+    validUserIds = ["1", "2", "3"]
+
     # Storing user input for checking a valid USER ID
-    userID = int(input("PLEASE ENTER YOUR USER ID: "))
+    userID = input("PLEASE ENTER YOUR USER ID: ")
 
-    # Checking if user inputs a valid USER ID and re-promptig user if there is an invalid USER ID
-    while userID <= 0 or userID > 3:
+    # Checking if user inputs an invalid USER ID and re-prompts user
+    while userID not in validUserIds:
         print("\n** INVALID USER ID. TRY AGAIN! **\n")
-        userID = int(input("PLEASE ENTER YOUR USER ID: "))
-
-    return userID
+        userID = input("PLEASE ENTER YOUR USER ID: ")
+    # Checks if ther is a valid USER ID and converts it to an int and returns it
+    if userID in validUserIds:
+        validUserID = int(userID)
+        return userID
 
 """ DISPLAYING USER ACCOUNT MENU METHOD """
 def displayAccountMenu():
@@ -76,15 +88,21 @@ def displayAccountMenu():
     print("\n-- ACCOUNT MAIN MENU --\n")
     print(" 1. Show Wishlist\n 2. Add A Book To Your Wishlist\n 3. Main Menu\n 4. Exit Program\n")
 
+    # Array of valid Account Options
+    validAccountOptions = ["1", "2", "3", "4"]
+
     # Storing users selection of account menu
-    accountOptions = int(input("\n PLEASE ENTER THE CORRESPONDING NUMBER FOR SELECTION! "))
+    accountOptions = input("\n PLEASE ENTER THE CORRESPONDING NUMBER FOR SELECTION! ")
 
     # Checking user input for account main menu and re-prompting if user enters and invlaid selection
-    while accountOptions <= 0 or accountOptions > 4:
+    while accountOptions not in validAccountOptions:
         print("\n** INVALID SELECTION: PLEASE TRY AGAIN WITH THE OPTIONS BELOW! **")
-        accountOptions = int(input("\n PLEASE ENTER THE CORRESPONDING NUMBER FOR SELECTION! "))
-
-    return accountOptions
+        accountOptions = input("\n PLEASE ENTER THE CORRESPONDING NUMBER FOR SELECTION! ")
+    
+    # Checks for valid account menu option and converts it to an int and returns it
+    if accountOptions in validAccountOptions:
+        validAccountOption = int(accountOptions)
+        return validAccountOption
 
 """ DISPLAYING BOOKS THAT CAN BE ADDED TO WISHLIST METHOD """
 def displayBooksToAdd(_cursor, _user_id):
@@ -118,7 +136,7 @@ def displayWishlist(_cursor, _user_id):
                     "FROM wishlist INNER JOIN user ON wishlist.user_id = user.user_id INNER JOIN book ON wishlist.book_id = book.book_id " + 
                     "WHERE user.user_id = {}".format(_user_id))
 
-    # Grabbong and storing wishlist books from query
+    # Grabbing and storing wishlist books from query
     wishlist = _cursor.fetchall()
 
     # Printing wishlist books of user
@@ -152,28 +170,38 @@ try:
         if mainMenuSelection == 3:
             myID = validateUser()
             # Storing user input selection on Account Main Menu
-            accountOptions = displayAccountMenu()
+            accountOption = displayAccountMenu()
             # While loop runs and checks user input. if user selection equals 3 it returns them to 
             # the Main Menu
-            while accountOptions != 3:
+            while accountOption != 3:
                 # Account Menu selection 1 displays user wishlist
-                if accountOptions == 1:
+                if accountOption == 1:
                     displayWishlist(cursor, myID)
                 # Account Menu selection 2 displays books that can be added to wishlist and asks
                 # user to input book ID they wish to add to their wishlist and then commits that book to 
                 # the database                           
-                if accountOptions == 2:
+                if accountOption == 2:
                     displayBooksToAdd(cursor, myID)
-                    addBookID = int(input(" Enter the Book ID you want to add to your wishlist! "))
-                    addBookToWishlist(cursor, myID, addBookID)
+                    addBookID = input("\nEnter the Book ID you want to add to your wishlist! ")
+                    validBookID = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+                    while addBookID not in validBookID:
+                        print("\n** Invlaid Book ID. Please try again! **")
+                        addBookID = input("\nEnter the Book ID you want to add to your wishlist! ")
+                    if addBookID in validBookID:
+                        validBookID = int(addBookID)
+                    addBookToWishlist(cursor, myID, validBookID)
                     db.commit()
+                    print("\nYour Book was added successfully!")
                 # Account Menu selection 4 terminates program
-                if accountOptions == 4:
+                if accountOption == 4:
+                    print("Program Terminated....")
                     sys.exit()
-                accountOptions = displayAccountMenu()
+                accountOption = displayAccountMenu()
+            
         mainMenuSelection = displayMenu()
         # Main Menu selection 4 terminates the program
         if mainMenuSelection == 4:
+            print("Program Terminated....")
             sys.exit()
       
 
