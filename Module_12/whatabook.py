@@ -194,14 +194,14 @@ try:
                     print("\nYour Book was added successfully!")
                 # Account Menu selection 4 terminates program
                 if accountOption == 4:
-                    print("Program Terminated....")
+                    print("\nProgram Terminated....")
                     sys.exit()
                 accountOption = displayAccountMenu()
             
         mainMenuSelection = displayMenu()
         # Main Menu selection 4 terminates the program
         if mainMenuSelection == 4:
-            print("Program Terminated....")
+            print("\nProgram Terminated....")
             sys.exit()
       
 
