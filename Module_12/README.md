@@ -1,7 +1,8 @@
 Book Wishlist Application
 
 Acts as an internal application that sets up a local database with default books and allows users to browse through the list and add a book to a wishlist 
-and store it for future reference.
+and store it for future reference. Users can be set up in the whatabook_init_db.sql file and the associated userID will be assigned. Each user can
+seperately add books to their unique userID.
 
 Requirements: IDE, Python, MySQL
 
@@ -22,4 +23,4 @@ Run the whatabook.py file to run the application.
 
 NOTE: 
 In the whatabook_init_db.sql you can add as many additional books as you would like to increase the size of the database and options of 
-books that can be added to the users wishlist.
+books that can be added to the users wishlist. In addition you can create new users to store seperate wishlists for them.
